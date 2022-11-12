@@ -1,47 +1,48 @@
 "use strict";
 // Trayendo response de Pokemons de la api---------------
-//const allPokemons = [];
 //for (let id = 1; id <= 66; id++) {
   const pokemonsApi = await fetch('https://pokeapi.co/api/v2/pokemon');
   const pokemonApi = await pokemonsApi.json();
-  //debugger
-  //allPokemons.push(pokemonApi);
 //}
 // Creación de nodos primarios y sus clases en el documento de HTML-----------
 const header$$ = document.createElement("header");
+header$$.classList.add("header");
 document.body.appendChild(header$$);
 const divBackground$$ = document.createElement('div');
 divBackground$$.classList.add("background-header");
-header$$.appendChild(divBackground$$)
+header$$.appendChild(divBackground$$);
 
-/*const backgroundHeader$$ = document.createElement('img');
-backgroundHeader$$.scr = 'https://thumbs.dreamstime.com/z/pokemon-carda-el-fondo-74262268.jpg';
-divBackground$$.appendChild(backgroundHeader$$);*/
-
+const imagePokeBall$$ = document.createElement('img');
+imagePokeBall$$.classList.add("poke-ball");
+imagePokeBall$$.src = "https://www.clipartmax.com/png/small/129-1298328_pokeball-pokemon-ball-hd-images-free-png-image-pokebola-png.png";
+header$$.appendChild(imagePokeBall$$);
 
 const logoPokemon$$ = document.createElement('img');
 logoPokemon$$.classList.add("pokemon-logo");
-logoPokemon$$.src = './Images/Pokemon.png';
+logoPokemon$$.src = './Images/Pokemon-logo.png';
 header$$.appendChild(logoPokemon$$);
 
-
 const main$$ = document.createElement("main");
-const section$$ = document.createElement("section");
-const urlPoke = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'
-header$$.classList.add("header");
-section$$.classList.add("pokemons-container");
-
 document.body.appendChild(main$$);
-main$$.appendChild(section$$);
-// Funcion para pintar cartas-----------------------------------
 
+const section$$ = document.createElement("section");
+section$$.classList.add("pokemons-container");
+main$$.appendChild(section$$);
+//section$$.style = 'display:none';
+
+const sectionChosenPoke$$ = document.createElement("section");
+sectionChosenPoke$$.classList.add("chosen-section")
+main$$.appendChild(sectionChosenPoke$$);
+const chosenPokemon$$ = document.createElement("article");
+chosenPokemon$$.classList.add("chosen-pokemon");
+sectionChosenPoke$$.appendChild(chosenPokemon$$);
+// Funcion para pintar cartas-----------------------------------
 //const paintingCards = (cardPokemon, namePokemon);
   //imgPokemon) => {
-  //debugger
-
-  //debugger 
 //}
+
 // Creando las cartas y pintandolas------------------------------
+const urlPoke = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'
 const creatingCards = () => {
   for (let index = 0; index < 20; index++) {
     //Insertando nodo article (carta Pokemon) en el documento HTML.
@@ -62,13 +63,6 @@ const creatingCards = () => {
     ;
     imagePokemons$$.src = linkImage;
     console.log(imagePokemons$$.src);
-    debugger
-    
-    //paintingCards(pokeArticle$$, imagePokemons$$);
-
-    //cardPokemon.appendChild(imagePokemons$$);
-
-    //debugger
   }
 }
 creatingCards();
