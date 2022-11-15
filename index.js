@@ -9,17 +9,17 @@ const pokemonApi = await pokemonsApi.json();
 //! FUNCIONES.
 
 //? Funciónes de event listener para seleccionar las cartas y deseleccionarlas
-const choosingCard = (section$$ ) => {
-  const choseenCard$$ = document.querySelector('.chosen-pokemon');
-  console.log(choseenCard$$);
-  debugger
+const choosingCard = (section$$, chosenPokemon$$) => {
+  //const choseenCard$$ = document.querySelector('.chosen-pokemon');
+  //console.log(choseenCard$$);
+  //debugger
   section$$.addEventListener("click", (card) => {
-    debugger
-    console.log (card.target, card.target.className);
-    if (card.target && card.target.className == "pokemon-card") {
+    //debugger
+    //console.log (card.target, card.target.className);
+    if (card.target && card.target.tagName == "ARTICLE") {
       debugger
       section$$.style.display = "none";
-      choseenCard$$.style.display = "flex";
+      chosenPokemon$$.style.display = "flex";
       //paintingCards(index, chosenPokemon$$, (mark = false));
       //unChoosingCard(index, chosenPokemon$$, section$$);
       //paintingPoke(chosenPokemon$$);
@@ -56,7 +56,7 @@ const paintingCards = (index, pokeArticle$$, chosenPokemon$$, mark) => {
 }
 
 //? Función para crear las cartas------------------------------
-const creatingCards = (section$$) => {
+const creatingCards = (section$$, main$$) => {
   for (let index = 0; index < pokemonApi.results.length; index++) {
     let mark = true;
     const pokeArticle$$ = document.createElement("article");
@@ -64,16 +64,17 @@ const creatingCards = (section$$) => {
     section$$.appendChild(pokeArticle$$);
     paintingCards(index, mark, pokeArticle$$);
   }
-  choosingCard.bind(creatingCards);
-}
-const creatingChosenCard = (main$$) => {
   const sectionChosenPoke$$ = document.createElement("section");
   sectionChosenPoke$$.classList.add("chosen-section");
   main$$.appendChild(sectionChosenPoke$$);
   const chosenPokemon$$ = document.createElement("article");
   chosenPokemon$$.classList.add("chosen-pokemon");
   sectionChosenPoke$$.appendChild(chosenPokemon$$);
-}
+  choosingCard(section$$, chosenPokemon$$);
+  }
+
+
+
 
 //? Funcion creación body del documento HTML----------------------
 const creatingExtrure = () => {
@@ -94,10 +95,10 @@ const creatingExtrure = () => {
   const section$$ = document.createElement("section");
   section$$.classList.add("pokemons-container");
   main$$.appendChild(section$$);
+  creatingCards(section$$, main$$);
   //debugger
-  console.log(section$$);
-  creatingCards(section$$);
-  creatingChosenCard(main$$);
+  //console.log(section$$);
+  //creatingChosenCard(main$$);
 }
 creatingExtrure();
 
