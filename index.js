@@ -11,30 +11,32 @@ const pokemonApi = await pokemonsApi.json();
 //? Funciónes de event listener para seleccionar las cartas y deseleccionarlas
 const choosingCard = (section$$, chosenPokemon$$) => {
   //const choseenCard$$ = document.querySelector('.chosen-pokemon');
-  //console.log(choseenCard$$);
-  //debugger
-  section$$.addEventListener("click", (card) => {
-    //debugger
-    //console.log (card.target, card.target.className);
-    if (card.target && card.target.tagName == "ARTICLE") {
-      debugger
+  console.log(section$$,chosenPokemon$$);
+  debugger
+  section$$.addEventListener("click", (event) => {
+    console.log (event.target, event.target.tagName);
+    debugger
+    if (event.target && event.target.tagName === "ARTICLE") {
       section$$.style.display = "none";
       chosenPokemon$$.style.display = "flex";
       //paintingCards(index, chosenPokemon$$, (mark = false));
       //unChoosingCard(index, chosenPokemon$$, section$$);
       //paintingPoke(chosenPokemon$$);
+      unChoosingCard(section$$, chosenPokemon$$);
     }
   });
 }
-/*const unChoosingCard = (index, chosenPokemon$$, section$$) => {
-  chosenPokemon$$.addEventListener("click", (chosenPokemon$$) => {
+const unChoosingCard = (section$$, chosenPokemon$$) => {
+  section$$.removeEventListener();
+  chosenPokemon$$.addEventListener("click", (event) => {
+    if (event.target && event.target.tagName === "ARTICLE") {
     section$$.style.display = "flex";
     chosenPokemon$$.style.display = "none";
-    paintingCards(index, chosenPokemon$$, (mark = true));
-    chosenPokemon$$.removeEventListener('click', card);
-    choosingCard(index, section$$, pokeArticle$$, chosenPokemon$$);
+    //paintingCards(index, chosenPokemon$$, (mark = true));
+    choosingCard(section$$, chosenPokemon$$);
+    }
   });
-}*/
+}
 
 //? Función para pintar las cartas------------------------------
 const paintingCards = (index, pokeArticle$$, chosenPokemon$$, mark) => {
