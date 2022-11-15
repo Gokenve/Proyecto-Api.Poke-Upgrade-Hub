@@ -9,37 +9,41 @@ const pokemonApi = await pokemonsApi.json();
 //! FUNCIONES.
 
 //? Funciónes de event listener para seleccionar las cartas y deseleccionarlas
-const choosingCard = (section$$, chosenPokemon$$) => {
-  //const choseenCard$$ = document.querySelector('.chosen-pokemon');
-  console.log(section$$,chosenPokemon$$);
-  debugger
-  section$$.addEventListener("click", (event) => {
-    console.log (event.target, event.target.tagName);
-    debugger
-    if (event.target && event.target.tagName === "ARTICLE") {
-      section$$.style.display = "none";
-      chosenPokemon$$.style.display = "flex";
-      //paintingCards(index, chosenPokemon$$, (mark = false));
-      //unChoosingCard(index, chosenPokemon$$, section$$);
-      //paintingPoke(chosenPokemon$$);
-      unChoosingCard(section$$, chosenPokemon$$);
-    }
-  });
-}
-const unChoosingCard = (section$$, chosenPokemon$$) => {
-  section$$.removeEventListener();
-  chosenPokemon$$.addEventListener("click", (event) => {
-    if (event.target && event.target.tagName === "ARTICLE") {
+const unChoosingCard = (section$$, chosenPokemon$$, event) => {
+  //console.log(event)
+  //section$$.removeEventListener(choosingCard);
+  let mark = false;
+  //paintingCards(mark, chosenPokemon$$);
+  chosenPokemon$$.addEventListener("click", (event2) => {
     section$$.style.display = "flex";
     chosenPokemon$$.style.display = "none";
-    //paintingCards(index, chosenPokemon$$, (mark = true));
-    choosingCard(section$$, chosenPokemon$$);
-    }
+    //choosingCard(section$$, chosenPokemon$$);  
   });
+};
+const choosingCard = (section$$, chosenPokemon$$,) => {
+  //console.log(section$$,chosenPokemon$$);
+  debugger
+  section$$.addEventListener("click", (event) => {
+    debugger
+    //const pEvent = event.
+    console.log (event,event.target);
+    section$$.style.display = "none";
+    chosenPokemon$$.style.display = "flex";
+    unChoosingCard(section$$, chosenPokemon$$, event);
+    /*if (event.target && event.target.tagName === "ARTICLE") {
+      section$$.style.display = "none";
+      chosenPokemon$$.style.display = "flex";
+      //paintingCards(chosenPokemon$$, (mark = false));
+      //unChoosingCard(index, chosenPokemon$$, section$$);
+      //paintingPoke(chosenPokemon$$);
+    }*/
+  });
+  
 }
 
+
 //? Función para pintar las cartas------------------------------
-const paintingCards = (index, pokeArticle$$, chosenPokemon$$, mark) => {
+const paintingCards = (index, pokeArticle$$, mark, chosenPokemon$$, event) => {
   const paragraphs$$ = document.createElement("p");
   paragraphs$$.classList.add("pokemon-name");
   let objectPokemon = pokemonApi.results[index];
@@ -53,7 +57,7 @@ const paintingCards = (index, pokeArticle$$, chosenPokemon$$, mark) => {
     pokeArticle$$.appendChild(imagePokemons$$);
   } else {
     chosenPokemon$$.appendChild(paragraphs$$);
-    chosenPokemon$$.appendChild(imagePokemons$$);
+    chosenPokemon$$.appendChild(event.target);
   }
 }
 
@@ -64,7 +68,7 @@ const creatingCards = (section$$, main$$) => {
     const pokeArticle$$ = document.createElement("article");
     pokeArticle$$.classList.add("pokemon-card");
     section$$.appendChild(pokeArticle$$);
-    paintingCards(index, mark, pokeArticle$$);
+    paintingCards(index, pokeArticle$$, mark);
   }
   const sectionChosenPoke$$ = document.createElement("section");
   sectionChosenPoke$$.classList.add("chosen-section");
