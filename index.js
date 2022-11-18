@@ -1,9 +1,15 @@
 "use strict";
 
-//import { paintingPoke } from "./painting-poke-function";
-
-const pokemonsApi = await fetch('https://pokeapi.co/api/v2/pokemon?offset=0&limit=100,"abilities","results"/');
-const pokemonApi = await pokemonsApi.json();
+const fetchPokeApi = async () =>{
+  try {
+  const res = await fetch('https://pokeapi.co/api/v2/pokemon?offset=0&limit=100,"abilities","results"/');
+  const pokemonApi = await res.json();
+  return pokemonApi;
+  } catch (error) {
+    console.log(error);
+  }
+}; 
+const allPokes = await fetchPokeApi();
 
 //! FUNCIONES.
 
@@ -31,13 +37,13 @@ const choosingCard = (section$$, pokeArticle$$, chosenPokemon$$) => {
   });
 };
 
-//? Función para pintar las cartas------------------------------
+//? Función para pintar las cartas ------------------------------
 
 const paintingCards = (index, pokeArticle$$, mark, chosenPokemon$$, nameChosenPoke, imageChosenPoke) => {
   if (mark === true) {
     let paragraphs$$ = document.createElement("p");
     paragraphs$$.classList.add("pokemon-name");
-    let objectPokemon = pokemonApi.results[index];
+    let objectPokemon = allPokes.results[index];
     paragraphs$$.textContent = objectPokemon.name;
     let imagePokemons$$ = document.createElement("img");
     imagePokemons$$.classList.add("pokemon-image");
@@ -57,7 +63,7 @@ const paintingCards = (index, pokeArticle$$, mark, chosenPokemon$$, nameChosenPo
   }
 };
 
-//? Función para crear las cartas------------------------------
+//? Función para crear las cartas ------------------------------
 
 const creatingCards = (section$$, main$$) => {
   const sectionChosenPoke$$ = document.createElement("section");
@@ -66,7 +72,7 @@ const creatingCards = (section$$, main$$) => {
   const chosenPokemon$$ = document.createElement("article");
   chosenPokemon$$.classList.add("chosen-pokemon");
   sectionChosenPoke$$.appendChild(chosenPokemon$$);
-  for (let index = 0; index < pokemonApi.results.length; index++) {
+  for (let index = 0; index < allPokes.results.length; index++) {
     let mark = true;
     const pokeArticle$$ = document.createElement("article");
     pokeArticle$$.classList.add("pokemon-card");
@@ -76,7 +82,7 @@ const creatingCards = (section$$, main$$) => {
   }
 };
 
-//? Funcion creación body del documento HTML----------------------
+//? Funcion creación body del documento HTML ----------------------
 
 const creatingExtrure = () => {
   const header$$ = document.createElement("header");

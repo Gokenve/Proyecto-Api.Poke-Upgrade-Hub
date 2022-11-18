@@ -41,6 +41,10 @@ main {
     justify-content: center;
 }
 
+.button-random {
+    width: 100px;
+}
+
 .pokemons-container {
     display: flex;
     flex-wrap: wrap;
