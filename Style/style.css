@@ -72,6 +72,7 @@ main {
 }
 .pokemon-card:hover {
     opacity: 0.8;
+    font-size: 35px;
     width: 230px;
     height: 305px;
     margin-top: 60px;
@@ -102,11 +103,25 @@ main {
     justify-content:flex-start;
     font-size: 40px;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    margin-top: 40px;
+    margin-top: 35px;
     box-shadow: 10px 5px 10px black;
 }
 .chosen-pokemon:hover {
+    font-size: 45px;
     opacity: 0.7;
     width: 300px;
     height: 450px;
+}
+
+.pokemon-choosen-image {
+    width: 315px;
+    height: 315px;
+    transform: translate(-20px);
+}
+
+.pokemon-choosen-image:hover {
+    opacity: 0.8;
+    width: 335px;
+    height: 335px;
+    transform: translate(-18px, 30px);
 }

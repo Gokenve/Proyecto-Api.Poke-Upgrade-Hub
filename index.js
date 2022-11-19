@@ -1,7 +1,5 @@
 "use strict";
 
-//? Llamada a la Api
-
 const fetchPokeApi = async () => {
   try {
     const res = await fetch(
@@ -22,7 +20,6 @@ const allPokes = await fetchPokeApi();
 const eventUnchoosingCard = (pokeArticle$$, main$$, section$$) => {
   let namePokemon = pokeArticle$$.childNodes[0].lastChild.data;
   let imagePokemon = pokeArticle$$.childNodes[1].src;
-  console.log(typeof namePokemon ,namePokemon);
   const sectionChoosenPoke$$ = document.createElement("section");
   sectionChoosenPoke$$.classList.add("chosen-section");
   main$$.appendChild(sectionChoosenPoke$$);
@@ -30,11 +27,11 @@ const eventUnchoosingCard = (pokeArticle$$, main$$, section$$) => {
   chosenPokeArticle$$.classList.add("chosen-pokemon");
   sectionChoosenPoke$$.appendChild(chosenPokeArticle$$);
   let CardToPaint = chosenPokeArticle$$;
-  paintingCards(namePokemon, imagePokemon, CardToPaint);
+  const classImg = "pokemon-choosen-image"
+  paintingCards(namePokemon, imagePokemon, CardToPaint, classImg);
   chosenPokeArticle$$.addEventListener("click", (event2) => {
   section$$.style.display = "flex";
   sectionChoosenPoke$$.remove();
-  
   });
 };
 const eventChoosingCard = (section$$, pokeArticle$$, main$$) => {
@@ -46,13 +43,13 @@ const eventChoosingCard = (section$$, pokeArticle$$, main$$) => {
 
 //? Función para pintar las cartas ------------------------------
 
-const paintingCards = (namePokemon, imagePokemon, CardToPaint) => {
+const paintingCards = (namePokemon, imagePokemon, CardToPaint, classImg) => {
   let paragraphs$$ = document.createElement("h3");
   paragraphs$$.classList.add("pokemon-name");
   paragraphs$$.textContent = namePokemon;
   CardToPaint.appendChild(paragraphs$$);
   let imagePokemon$$ = document.createElement("img");
-  imagePokemon$$.classList.add("pokemon-image");
+  imagePokemon$$.classList.add(classImg);
   imagePokemon$$.src = imagePokemon;
   CardToPaint.appendChild(imagePokemon$$);
 };
@@ -68,7 +65,8 @@ const creatingCards = (section$$, main$$) => {
     let objectPokemon = allPokes.results[index];
     let namePokemon = objectPokemon.name;
     const imagePokemon = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`;
-    paintingCards(namePokemon, imagePokemon, CardToPaint);
+    const classImg = "pokemon-image";
+    paintingCards(namePokemon, imagePokemon, CardToPaint, classImg);
     eventChoosingCard(section$$, pokeArticle$$, main$$);
   }
 };
