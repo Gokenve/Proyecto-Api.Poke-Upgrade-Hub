@@ -1,84 +1,75 @@
 "use strict";
 
-const fetchPokeApi = async () =>{
+//? Llamada a la Api
+
+const fetchPokeApi = async () => {
   try {
-  const res = await fetch('https://pokeapi.co/api/v2/pokemon?offset=0&limit=100,"abilities","results"/');
-  const pokemonApi = await res.json();
-  return pokemonApi;
+    const res = await fetch(
+      'https://pokeapi.co/api/v2/pokemon?offset=0&limit=100,"abilities","results"/'
+    );
+    const pokemonApi = await res.json();
+    return pokemonApi;
   } catch (error) {
     console.log(error);
   }
-}; 
+};
 const allPokes = await fetchPokeApi();
 
 //! FUNCIONES.
 
 //? Funciónes de event listener para seleccionar las cartas y deseleccionarlas
 
-const unChoosingCard = (section$$, pokeArticle$$, chosenPokemon$$, index) => {
-  let mark = false;
-  let nameChosenPoke = pokeArticle$$.childNodes[0].lastChild;
-  let imageChosenPoke = pokeArticle$$.childNodes[1].src;
-  paintingCards(index, pokeArticle$$, mark, chosenPokemon$$, nameChosenPoke, imageChosenPoke);
-  chosenPokemon$$.addEventListener("click", (event2) => {
-    const paragraphToRemove$$ = chosenPokemon$$.querySelector('p');
-    const imageToRemove$$ = chosenPokemon$$.querySelector('img');
-    paragraphToRemove$$.remove();
-    imageToRemove$$.remove();
-    section$$.style.display = "flex";
-    chosenPokemon$$.style.display = "none";
+const eventUnchoosingCard = (pokeArticle$$, main$$, section$$) => {
+  let namePokemon = pokeArticle$$.childNodes[0].lastChild.data;
+  let imagePokemon = pokeArticle$$.childNodes[1].src;
+  console.log(typeof namePokemon ,namePokemon);
+  const sectionChoosenPoke$$ = document.createElement("section");
+  sectionChoosenPoke$$.classList.add("chosen-section");
+  main$$.appendChild(sectionChoosenPoke$$);
+  const chosenPokeArticle$$ = document.createElement("article");
+  chosenPokeArticle$$.classList.add("chosen-pokemon");
+  sectionChoosenPoke$$.appendChild(chosenPokeArticle$$);
+  let CardToPaint = chosenPokeArticle$$;
+  paintingCards(namePokemon, imagePokemon, CardToPaint);
+  chosenPokeArticle$$.addEventListener("click", (event2) => {
+  section$$.style.display = "flex";
+  sectionChoosenPoke$$.remove();
+  
   });
 };
-const choosingCard = (section$$, pokeArticle$$, chosenPokemon$$) => {
+const eventChoosingCard = (section$$, pokeArticle$$, main$$) => {
   pokeArticle$$.addEventListener("click", (event) => {
     section$$.style.display = "none";
-    chosenPokemon$$.style.display = "flex";
-    unChoosingCard(section$$, pokeArticle$$, chosenPokemon$$);
+    eventUnchoosingCard(pokeArticle$$, main$$, section$$);
   });
 };
 
 //? Función para pintar las cartas ------------------------------
 
-const paintingCards = (index, pokeArticle$$, mark, chosenPokemon$$, nameChosenPoke, imageChosenPoke) => {
-  if (mark === true) {
-    let paragraphs$$ = document.createElement("p");
-    paragraphs$$.classList.add("pokemon-name");
-    let objectPokemon = allPokes.results[index];
-    paragraphs$$.textContent = objectPokemon.name;
-    let imagePokemons$$ = document.createElement("img");
-    imagePokemons$$.classList.add("pokemon-image");
-    const linkImage = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`;
-    imagePokemons$$.src = linkImage;
-    pokeArticle$$.appendChild(paragraphs$$);
-    pokeArticle$$.appendChild(imagePokemons$$);
-  } else {
-    let paragraphs$$ = document.createElement("p");
-    paragraphs$$.classList.add("chosen-pokemon-name");
-    paragraphs$$.textContent = nameChosenPoke.data;
-    let imagePokemons$$ = document.createElement("img");
-    imagePokemons$$.classList.add("chosen-pokemon-image");
-    imagePokemons$$.src = imageChosenPoke;
-    chosenPokemon$$.appendChild(paragraphs$$);
-    chosenPokemon$$.appendChild(imagePokemons$$);
-  }
+const paintingCards = (namePokemon, imagePokemon, CardToPaint) => {
+  let paragraphs$$ = document.createElement("h3");
+  paragraphs$$.classList.add("pokemon-name");
+  paragraphs$$.textContent = namePokemon;
+  CardToPaint.appendChild(paragraphs$$);
+  let imagePokemon$$ = document.createElement("img");
+  imagePokemon$$.classList.add("pokemon-image");
+  imagePokemon$$.src = imagePokemon;
+  CardToPaint.appendChild(imagePokemon$$);
 };
 
 //? Función para crear las cartas ------------------------------
 
 const creatingCards = (section$$, main$$) => {
-  const sectionChosenPoke$$ = document.createElement("section");
-  sectionChosenPoke$$.classList.add("chosen-section");
-  main$$.appendChild(sectionChosenPoke$$);
-  const chosenPokemon$$ = document.createElement("article");
-  chosenPokemon$$.classList.add("chosen-pokemon");
-  sectionChosenPoke$$.appendChild(chosenPokemon$$);
   for (let index = 0; index < allPokes.results.length; index++) {
-    let mark = true;
-    const pokeArticle$$ = document.createElement("article");
+    let pokeArticle$$ = document.createElement("article");
     pokeArticle$$.classList.add("pokemon-card");
+    let CardToPaint = pokeArticle$$;
     section$$.appendChild(pokeArticle$$);
-    paintingCards(index, pokeArticle$$, mark, chosenPokemon$$);
-    choosingCard(section$$, pokeArticle$$, chosenPokemon$$);
+    let objectPokemon = allPokes.results[index];
+    let namePokemon = objectPokemon.name;
+    const imagePokemon = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`;
+    paintingCards(namePokemon, imagePokemon, CardToPaint);
+    eventChoosingCard(section$$, pokeArticle$$, main$$);
   }
 };
 
@@ -98,7 +89,7 @@ const creatingExtrure = () => {
   //? main del documento
   const main$$ = document.createElement("main");
   document.body.appendChild(main$$);
-  //? cracion de todas las cartas y pintado
+  //? creacion de todas las cartas y pintado
   const section$$ = document.createElement("section");
   section$$.classList.add("pokemons-container");
   main$$.appendChild(section$$);
